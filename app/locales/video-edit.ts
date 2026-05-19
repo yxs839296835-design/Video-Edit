@@ -3,7 +3,7 @@ export const videoEditLocale = {
     metaTitle: '永久免费在线视频编辑器 | 剪辑、压缩、合并和转换视频',
     metaDescription:
       '使用免费在线视频编辑器快速完成视频剪辑、压缩、合并、格式转换、音频提取和导出。无需安装软件，适合短视频、电商、课程和企业视频制作。',
-    brand: 'Video Edit',
+    brand: 'RecCloud',
     navTools: '视频工具',
     navTemplates: '模板',
     navResources: '资源',

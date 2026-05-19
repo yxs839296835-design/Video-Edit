@@ -5,6 +5,7 @@ import { videoEditLocale } from '../locales/video-edit'
 const t = videoEditLocale.zh
 const activeFaq = ref<number | null>(0)
 const isWorkspaceActive = ref(false)
+const RECCLOUD_HOME_URL = 'https://reccloud.cn/'
 
 const uploadCards = [
   {
@@ -146,8 +147,8 @@ function scrollToEditor() {
 <template>
   <div class="video-edit-page" :class="{ 'workspace-active': isWorkspaceActive }">
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Video Edit">
-        <span class="brand-mark">V</span>
+      <a class="brand" :href="RECCLOUD_HOME_URL" aria-label="RecCloud 官网">
+        <img class="brand-mark" src="/brand/reccloud-logo.svg" alt="" draggable="false">
         <span>{{ t.brand }}</span>
       </a>
     </header>
@@ -297,8 +298,8 @@ function scrollToEditor() {
 
     <footer v-if="!isWorkspaceActive" class="site-footer">
       <div>
-        <a class="brand" href="/" aria-label="Video Edit">
-          <span class="brand-mark">V</span>
+        <a class="brand" :href="RECCLOUD_HOME_URL" aria-label="RecCloud 官网">
+          <img class="brand-mark" src="/brand/reccloud-logo.svg" alt="" draggable="false">
           <span>{{ t.brand }}</span>
         </a>
         <p>{{ t.footerDescription }}</p>
@@ -373,13 +374,9 @@ function scrollToEditor() {
 }
 
 .brand-mark {
-  display: grid;
   width: 34px;
   height: 34px;
-  place-items: center;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #d6fb72, #76f9b1);
-  color: #0b1020;
+  object-fit: contain;
 }
 
 .site-footer nav a {
