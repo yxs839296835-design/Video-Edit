@@ -59,6 +59,7 @@ const MAX_WEB_COMPRESS_SIZE = 500 * MB
 const MAX_WEB_COMPRESS_DURATION = 30 * 60
 const WINDOWS_DOWNLOAD_URL = 'https://download.aoscdn.com/down.php?softid=reccloud'
 const FFMPEG_LOAD_TIMEOUT = 45_000
+const FFMPEG_CORE_BASE_URL = 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/umd'
 
 const fileInputRef = ref<HTMLInputElement>()
 const replaceInputRef = ref<HTMLInputElement>()
@@ -1824,13 +1825,14 @@ async function getFfmpeg() {
 }
 
 async function loadFfmpegWithTimeout(ffmpeg: NonNullable<typeof ffmpegInstance>) {
+  const { toBlobURL } = await import('@ffmpeg/util')
   const timeout = new Promise<never>((_, reject) => {
     window.setTimeout(() => reject(new Error('FFmpeg load timed out')), FFMPEG_LOAD_TIMEOUT)
   })
   await Promise.race([
     ffmpeg.load({
-      coreURL: '/ffmpeg/ffmpeg-core.js',
-      wasmURL: '/ffmpeg/ffmpeg-core.wasm',
+      coreURL: await toBlobURL(`${FFMPEG_CORE_BASE_URL}/ffmpeg-core.js`, 'text/javascript'),
+      wasmURL: await toBlobURL(`${FFMPEG_CORE_BASE_URL}/ffmpeg-core.wasm`, 'application/wasm'),
     }),
     timeout,
   ])
@@ -2453,7 +2455,6 @@ async function deleteStoredFile() {
           <button class="gradient-button" type="button" @click="openFilePicker">
             {{ t.uploadButton }}
           </button>
-          <button class="secondary-button" type="button" @click="openFilePicker">{{ t.cloudButton }}</button>
         </div>
         <p class="format-text">{{ t.supportedFormats }}</p>
       </div>
@@ -2504,7 +2505,7 @@ async function deleteStoredFile() {
             </div>
 
             <div class="file-row-actions">
-              <button class="pill-button" type="button" @click="openReplacePicker">替换文件</button>
+              <button class="pill-button" type="button" @click="openReplacePicker">选择本地文件</button>
               <button type="button" class="back-button" @click="requestResetEditor">返回上传</button>
             </div>
           </div>
